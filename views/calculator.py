@@ -240,12 +240,17 @@ def chart_cumulative():
 def chart_composition():
     labels = [g for g in GAS_COMPONENTS if comp.get(g, 0) > 0]
     vals = [comp[g] for g in labels]
-    fig = go.Figure(go.Pie(labels=labels, values=vals, hole=.62,
+    ch4 = comp.get("CH4", 0)
+    fig = go.Figure(go.Pie(labels=labels, values=vals, hole=.64, sort=False,
                            marker=dict(colors=["#3b82f6", "#22d3ee", "#a78bfa", "#34d399",
                                                "#fbbf24", "#fb7185", "#94a3b8", "#f0abfc"],
                                        line=dict(color="#0a0f1c", width=2)),
-                           textinfo="label+percent", textfont=dict(size=11),
+                           textposition="inside", textinfo="percent", insidetextorientation="horizontal",
+                           textfont=dict(size=12, color="#0a0f1c"),
                            hovertemplate="%{label}: %{value:.3f}% об.<extra></extra>"))
+    fig.update_layout(uniformtext=dict(minsize=11, mode="hide"),
+                      annotations=[dict(text=f"CH₄<br><b>{ch4:.1f}%</b>", x=0.5, y=0.5,
+                                        font=dict(size=15, color="#eaf1fc"), showarrow=False)])
     return fig_layout(fig)
 
 
